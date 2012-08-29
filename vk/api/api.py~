@@ -1,0 +1,46 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+import json
+from urllib import urlencode
+import urllib
+import urllib2
+
+#Initialization
+path="/home/oleg/python/NerdLibraryManager/"
+auth_file=open(app_path+"network/api/auth.txt")
+token=auth_file
+
+	#token=f.readline()
+	#f.close()
+	#token=token[:-1]#Удаляем \n из тукена
+	
+	#def auth_period(path):
+	#if not os.path.exists(path+"network/auth.txt"): # Нужно учесть время действия ключа в будущем!!!!
+	#	sps.call(["python", path+"network/browser.py"])
+
+
+def call(method, params, token):
+    if isinstance(params, list):
+        params_list = [kv for kv in params]
+    elif isinstance(params, dict):
+        params_list = params.items()
+    else:
+        params_list = [params]
+    params_list.append(("access_token", token))
+    url = "https://api.vk.com/method/%s?%s" % (method, urlencode(params_list)) 
+    try:
+	    return json.loads(urllib2.urlopen(url).read())["response"]
+    except:
+	    return json.loads(urllib2.urlopen(url).read())
+
+
+def auth(auth_type="GUI"):
+	if auth_type=="GUI":
+		print "Запущена графическая авторизация."
+	elif auth_type=="term":
+		print "Используем консольный вариант авторизации."
+	else:
+		print "Передан неизвестный тип авторизации. Аварийный астонов."
+		raise SystemExit
+
