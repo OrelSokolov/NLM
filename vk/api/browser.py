@@ -5,8 +5,10 @@ from gi.repository import Gtk, WebKit
 import os, sys, urllib 
 from urlparse import urlparse, parse_qs
 import time
+import cfg.main
 
-app_path="/home/oleg/python/NerdLibraryManager/"
+app_path=cfg.main.getAppPath()
+cfg_path=cfg.main.getCfgPath()
 UI_FILE=app_path+"vk/api/browser.ui"
 
 class Browser:
@@ -52,7 +54,7 @@ class Browser:
 		r=urlparse(current_uri)
 		if "/blank.html" in r.path :
 			data=parse_qs(r.fragment) #Извлекаем access_token
-			fdata=open(app_path+"vk/api/auth.txt", "w")
+			fdata=open(cfg_path+"auth.txt", "w")
 			try:fdata.write(data['access_token'][0]+"\n")
 			except KeyError:#Нет тукена. Это бывает при нажатии на кнопку отмены. 
 				print "И зачем вы это сделали?"

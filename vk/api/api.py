@@ -7,17 +7,17 @@ import urllib
 import urllib2
 import time
 import subprocess as sps
-from cfg import main
+import cfg.main
 	
-app_path="~/.NerdLibraryManager/"
-
+app_path=cfg.main.getAppPath()
+cfg_path=cfg.main.getCfgPath()
 apocalypse_time="none"
 token="none"
 user_id="none"
 
 def loadUserData():
 	'''Загрузка из файла пользовательских данныx: пароля, логина..'''
-	data=open(app_path+"vk/api/UserData.txt")
+	data=open(cfg_path+"auth.data")
 	email=data.readline()[:-1]
 	password=data.readline()[:-1]
 	data.close()
@@ -37,7 +37,7 @@ def auth(auth_type="GUI"):
 			except: print "Проблема при загрузке данных из файла."
 			try: token, user_id=term_auth.auth(email, password, "3029477", "docs,groups,video,wall,photos,messages,pages")
 			except: print "Ошибка при вызове функции авторизации."
-			auth=open(app_path+"vk/api/auth.txt", "w")
+			auth=open(cfg_path+"auth.txt", "w")
 			#Делаем запись об авторизации#
 			auth.write(token+"\n")
 			auth.write(user_id+"\n")
@@ -83,7 +83,7 @@ def getUserId():
 
 def init(): #Initialization
 	try:
-		auth_file=open(app_path+"vk/api/auth.txt")
+		auth_file=open(cfg_path+"auth.txt")
 		global token, user_id, apocalypse_time # Работаем именно с глобальными переменными
 		token=auth_file.readline()[:-1]#Удаляем '\n' из тукена заодно
 		if token=='': 

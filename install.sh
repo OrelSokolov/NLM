@@ -35,9 +35,9 @@ echo $password >> ~/.NerdLibraryManager/auth.data
 echo "[done]"
 echo -n "Собираем главный конфигурационный модуль..."
 cat $PWD/cfg/main.part1 > ./cfg/main.py
-echo  "app_path='$PWD'" >> ./cfg/main.py
+echo  "app_path='$PWD/'" >> ./cfg/main.py
 lastdir=$PWD; cd ~/.NerdLibraryManager/;
-echo  "cfg_path='$PWD'" >> $lastdir/cfg/main.py
+echo  "cfg_path='$PWD/'" >> $lastdir/cfg/main.py
 cd $lastdir
 cat $PWD/cfg/main.part2 >> ./cfg/main.py
 echo '[done]'
