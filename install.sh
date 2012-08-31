@@ -1,4 +1,12 @@
-echo 'Производится установка Nerd Library Manager'
+echo 'Запущена установка Nerd Library Manager'
+if [ -e ~/.NerdLiraryManager ]; then
+	echo 'В системе присутствуют файлы от прошлой установки. Выполните удаление сначала'
+	exit 0
+fi
+if [ -e ~/.nerd_backup ]; then
+	echo 'Во время прошлой установки что-то пошло не так. Запустите удаление, прежде чем опять устанавливать.'
+	exit 0
+fi;
 
 # Скопировать файлы в бэкап
 echo -n 'Создание копии системных файлов...'
@@ -25,4 +33,13 @@ mkdir ~/.NerdLibraryManager
 echo $login > ~/.NerdLibraryManager/auth.data
 echo $password >> ~/.NerdLibraryManager/auth.data
 echo "[done]"
+#Сейчас установи все необходимые зависимости.
+dist=`uname -a`
+if [[ $dist ==  *Ubuntu* ]]; then
+	echo "Ваш дистрибутив: Ubuntu."
+	echo "Сейчас тебе будет предложено установить необходимые пакеты.\n"
+	sleep 5
+	sudo apt-get install rtmpdump
+fi
+
 echo "Все. Вроде установили =)"
