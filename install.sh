@@ -33,11 +33,21 @@ mkdir ~/.NerdLibraryManager
 echo $login > ~/.NerdLibraryManager/auth.data
 echo $password >> ~/.NerdLibraryManager/auth.data
 echo "[done]"
+echo -n "Создаем главный конфигурационный файл..."
+echo "$PWD" > ./cfg/main.cfg
+echo '[done]'
+echo -n "Добавляем в него необходимые данные..."
+lastdir=$PWD
+cd ~/.NerdLibraryManager/
+echo "$PWD" >> $lastdir/cfg/main.cfg
+cd $lastdir
+echo "[done]"
+
 #Сейчас установи все необходимые зависимости.
 dist=`uname -a`
 if [[ $dist ==  *Ubuntu* ]]; then
 	echo "Ваш дистрибутив: Ubuntu."
-	echo "Сейчас тебе будет предложено установить необходимые пакеты.\n"
+	echo "Сейчас тебе будет предложено установить необходимые пакеты."
 	sleep 5
 	sudo apt-get install rtmpdump
 fi

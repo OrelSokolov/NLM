@@ -2,7 +2,7 @@
 if [ -e ~/.nerd_backup ]; then
 #Восстановить .bashrc
 	echo -n "Восстанавливаем системные файлы..."
-	mv ~/.ned_backup/.bashrc ~/
+	mv ~/.nerd_backup/.bashrc ~/
 	echo "[done]"
 # Удалить папку с бэкапам
 	echo -n "Удаляем папку с прошлым бэкапом..."
