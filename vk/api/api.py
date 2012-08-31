@@ -7,8 +7,9 @@ import urllib
 import urllib2
 import time
 import subprocess as sps
+
 	
-app_path="/home/oleg/python/NerdLibraryManager/"
+app_path="~/.NerdLibraryManager/"
 
 apocalypse_time="none"
 token="none"

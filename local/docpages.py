@@ -13,10 +13,20 @@ except:
 	print "Установите pyPDF."
 	raise SystemExit
 
+#Проверяем на установленный программы.
+if not path.exists("/usr/bin/ddjvu"):
+	print "Установите ddjvu"
+	raise SystemExit		
+elif not path.exists("/usr/bin/convert"):
+	print "Установите convert"
+	raise SystemExit
+elif not path.exists("/usr/bin/pdf2djvu"):
+	print "Установите pdf2djvu"
+	raise SystemExit
 
 def extractPagePDF(filename, page):
-	'''Извлевает из PDF файла первую страницу и записывает ее в файл'''
-
+	'''Извлевает из PDF файла страницу и записывает ее в файл'''
+	page=int(page)
 	output = PdfFileWriter()
 	input1 = PdfFileReader(file(filename, "rb"))
 	#--------------------------------------------------------------------------------------------------
@@ -26,21 +36,22 @@ def extractPagePDF(filename, page):
 	#--------------------------------------------------------------------------------------------------
 	# Наконец, записываем "output" в файл "Результат.pdf"
 	#--------------------------------------------------------------------------------------------------
-	outputStream = file("desc-"+filename, "wb")
+	outputStream = file(str(page)+"desc-"+filename, "wb")
 	output.write(outputStream)
 	outputStream.close()
 
 
-def coverPDF(filename):
+def pagePDF(filename, page):
 	'''Записывает первую страницу из PDF файла в Jpeg файл'''
 	try:
-		extractPagePDF(filename) # Получаем PDF файл с одной страницей
+		extractPagePDF(filename, page) # Получаем PDF файл с одной страницей
 	except:
 		print "Ошибка, при вырезании страницы из файла", filename
+		raise SystemExit
 	#--------------------------------------------------------------------------------------------------
 	#- Конвертируем файл с одной страницей в djvu с одной страницей.
 	#--------------------------------------------------------------------------------------------------
-	filename="desc-"+filename
+	filename=str(page)+"desc-"+filename
 	name, ext = path.splitext(filename)
 	outName=name+".djvu"
 	sps.call(['pdf2djvu', '-o',outName, filename], stderr=open('/dev/null'))
@@ -53,53 +64,43 @@ def coverPDF(filename):
 	name, ext=path.splitext(inputName)
 	outName=name+".png"
 	#print outName
-	sps.call(['convert', inputName, '-resize','x400', outName], )
+	sps.call(['convert', inputName, '-resize','x3000', outName], )
 	sps.call(['rm', inputName]) # чистим каталог от мусора
 	#--------------------------------------------------------------------------------------------------
 	#- Теперь можно наслаждаться результатом. Получен нужный файл.
 	#--------------------------------------------------------------------------------------------------
+	return outName
 
-
-def coverDJVU(filename, page):
-	'''Записывает первую страницу из DJVU файла в JPG файл.'''
+def pageDJVU(filename, page):
+	'''Записывает страницу под номером page из DJVU файла в JPG файл.'''
 	outName, ext = path.splitext(filename)
 	#--------------------------------------------------------------------------------------------------
-	#- Попробуем извлечь обложку из файла.
+	#- Попробуем извлечь страницу из файла.
 	#--------------------------------------------------------------------------------------------------
-	try: sps.call(['ddjvu', '-format=tiff', '-page', str(page), filename, "desc-"+outName+".tiff"])
-	except: print "Возникли проблемы с извлечением обложки из файла."
+	try: sps.call(['ddjvu', '-format=tiff', '-page', str(page+1), filename, str(page)+"desc-"+outName+".tiff"])
+	except: print "Возникли проблемы с извлечением страницы из файла."
 	#--------------------------------------------------------------------------------------------------
-	#- Теперь сконвертируем обложку в png.
+	#- Теперь сконвертируем страницу в png.
 	#--------------------------------------------------------------------------------------------------
-	try: sps.call(['convert', "desc-"+outName+".tiff", '-resize', 'x400', "desc-"+outName+".png"])
+	try: sps.call(['convert',str(page)+"desc-"+outName+".tiff", '-resize', 'x3000', str(page)+"desc-"+outName+".png"])
 	except: print "Возникли проблемы с конвертированием в PNG."
 
-	sps.call(['rm', "desc-"+outName+".tiff"])
+	sps.call(['rm', str(page)+"desc-"+outName+".tiff"])
+	return  str(page)+"desc-"+outName+".png"
 
 
-def cover(filename, page):
+def extractPage(filename, page):
 	name, ext = path.splitext(filename)
-	print filename
+	print "Page", page, "from", filename
 	if(ext==".djvu"):
-		coverDJVU(filename, page)
+		return pageDJVU(filename, page)
 	elif (ext==".pdf"):
-		coverPDF(filename, page)
+		return pagePDF(filename, page)
 	else:
-		pass
+		return None
 
 if __name__== '__main__' :
-	if not path.exists("/usr/bin/ddjvu"):
-		print "Установите ddjvu"
-		raise SystemExit		
-	elif not path.exists("/usr/bin/convert"):
-		print "Установите convert"
+	try: extractPage(sys.argv[1], sys.argv[2])
+	except IndexError: 
+		print "Неверный список аргументов."
 		raise SystemExit
-	elif not path.exists("/usr/bin/pdf2djvu"):
-		print "Установите pdf2djvu"
-		raise SystemExit
-	else:
-		try:
-			cover(sys.argv[1], sys.argv[2])
-		except IndexError:
-			print("Не передано имя файла для создания обложки.")
-

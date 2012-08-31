@@ -13,6 +13,15 @@ except:
 	print "Установите pyPDF."
 	raise SystemExit
 
+if not path.exists("/usr/bin/ddjvu"):
+	print "Установите ddjvu"
+	raise SystemExit		
+elif not path.exists("/usr/bin/convert"):
+	print "Установите convert"
+	raise SystemExit
+elif not path.exists("/usr/bin/pdf2djvu"):
+	print "Установите pdf2djvu"
+	raise SystemExit
 
 def extractPagePDF(filename):
 	'''Извлевает из PDF файла первую страницу и записывает ее в файл'''
@@ -37,6 +46,7 @@ def coverPDF(filename):
 		extractPagePDF(filename) # Получаем PDF файл с одной страницей
 	except:
 		print "Ошибка, при вырезании страницы из файла", filename
+		raise SystemExit
 	#--------------------------------------------------------------------------------------------------
 	#- Конвертируем файл с одной страницей в djvu с одной страницей.
 	#--------------------------------------------------------------------------------------------------
@@ -79,7 +89,7 @@ def coverDJVU(filename):
 
 def cover(filename):
 	name, ext = path.splitext(filename)
-	print filename
+	print "Делаем обложку для",filename
 	if(ext==".djvu"):
 		coverDJVU(filename)
 	elif (ext==".pdf"):
@@ -88,18 +98,7 @@ def cover(filename):
 		pass
 
 if __name__== '__main__' :
-	if not path.exists("/usr/bin/ddjvu"):
-		print "Установите ddjvu"
-		raise SystemExit		
-	elif not path.exists("/usr/bin/convert"):
-		print "Установите convert"
-		raise SystemExit
-	elif not path.exists("/usr/bin/pdf2djvu"):
-		print "Установите pdf2djvu"
-		raise SystemExit
-	else:
-		try:
-			cover(sys.argv[1])
-		except IndexError:
-			print("Не передано имя файла для создания обложки.")
+	try: cover(sys.argv[1])
+	except IndexError:
+		print("Не передано имя файла для создания обложки.")
 

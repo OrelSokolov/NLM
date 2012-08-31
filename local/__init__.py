@@ -1,1 +1,2 @@
-__all__=["cover"]
+__all__=["docpages", "description"]
+
