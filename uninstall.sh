@@ -1,3 +1,9 @@
+# Сносим конфиг
+if [ -e ./cfg/main.cfg ]; then
+	echo -n "Сносим главный конфиг..."
+	rm ./cfg/main.cfg
+	echo "[done]"
+fi;
 
 if [ -e ~/.nerd_backup ]; then
 #Восстановить .bashrc
@@ -15,5 +21,4 @@ if [ -e ~/.NerdLibraryManager ]; then
 	rm -R ~/.NerdLibraryManager/
 	echo "[done]" 
 fi;
-
 
