@@ -1,8 +1,8 @@
 echo 'Запущена установка Nerd Library Manager'
-if [ -e ~/.NerdLiraryManager ]; then
-	echo 'В системе присутствуют файлы от прошлой установки. Выполните удаление сначала'
+if [ -e ~/.NerdLibraryManager ]; then
+	echo 'Все выглядит так, словно программа уже установлена. (Если хотите повторить установку - выполните удаление сначала)'
 	exit 0
-fi
+fi;
 if [ -e ~/.nerd_backup ]; then
 	echo 'Во время прошлой установки что-то пошло не так. Запустите удаление, прежде чем опять устанавливать.'
 	exit 0
@@ -33,15 +33,18 @@ mkdir ~/.NerdLibraryManager
 echo $login > ~/.NerdLibraryManager/auth.data
 echo $password >> ~/.NerdLibraryManager/auth.data
 echo "[done]"
-echo -n "Создаем главный конфигурационный файл..."
-echo "$PWD" > ./cfg/main.cfg
-echo '[done]'
-echo -n "Добавляем в него необходимые данные..."
-lastdir=$PWD
-cd ~/.NerdLibraryManager/
-echo "$PWD" >> $lastdir/cfg/main.cfg
+echo -n "Собираем главный конфигурационный модуль..."
+cat $PWD/cfg/main.part1 > ./cfg/main.py
+echo  "app_path='$PWD'" >> ./cfg/main.py
+lastdir=$PWD; cd ~/.NerdLibraryManager/;
+echo  "cfg_path='$PWD'" >> $lastdir/cfg/main.py
 cd $lastdir
-echo "[done]"
+cat $PWD/cfg/main.part2 >> ./cfg/main.py
+echo '[done]'
+echo -n "Переносим файлы для сборки в бэкап-каталог..."
+mv ./cfg/main.part1 ~/.nerd_backup/
+mv ./cfg/main.part2 ~/.nerd_backup/
+echo '[done]' 
 
 #Сейчас установи все необходимые зависимости.
 dist=`uname -a`
@@ -52,4 +55,5 @@ if [[ $dist ==  *Ubuntu* ]]; then
 	sudo apt-get install rtmpdump
 fi
 
+echo "------------------------"
 echo "Все. Вроде установили =)"

@@ -1,8 +1,14 @@
-# Сносим конфиг
-if [ -e ./cfg/main.cfg ]; then
+# Приводим программу к первоначальному состоянию
+if [ -e ./cfg/main.py ]; then
 	echo -n "Сносим главный конфиг..."
-	rm ./cfg/main.cfg
+	rm ./cfg/main.py
 	echo "[done]"
+	if [ -e ~/.nerd_backup/ ]; then
+		echo -n "Восстанавливаем первоначальное состояние этой папки."
+		mv ~/.nerd_backup/main.part1 ./cfg/
+		mv ~/.nerd_backup/main.part2 ./cfg/
+		echo '[done]'
+	fi;
 fi;
 
 if [ -e ~/.nerd_backup ]; then

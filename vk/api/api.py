@@ -7,7 +7,7 @@ import urllib
 import urllib2
 import time
 import subprocess as sps
-
+from cfg import main
 	
 app_path="~/.NerdLibraryManager/"
 

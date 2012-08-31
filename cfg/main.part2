@@ -1,0 +1,6 @@
+
+def getAppPath():
+	return app_path
+
+def getCfgPath():
+	return cfg_path
