@@ -4,6 +4,7 @@
 from vk.api import api
 import json
 from urllib import urlopen
+import cfg.main
 try: import requests #For uploading
 except:
 	print "Установите python-requests!"
@@ -11,7 +12,8 @@ except:
 
 
 GID="-38508808"
-app_path="/home/oleg/python/NerdLibraryManager/"
+app_path=cfg.main.getAppPath()
+cfg_path=cfg.main.getCfgPath()
 
 def upload(filename, gid=GID):
 	'''Загружает документ в личные документы пользователя'''
@@ -41,7 +43,7 @@ def download(oid, did):
 	'''Загружает документ на локальную машину.'''
 	doc=getById(oid, did)[0]
 	ext=doc['ext'];	url=doc['url'];	title=doc['title']	
-	fdoc=open(app_path+"tmp/"+title+'.'+ext, "wb"); fdoc.write(urlopen(url).read()); fdoc.close 
+	fdoc=open(cfg_path+"tmp/"+title+'.'+ext, "wb"); fdoc.write(urlopen(url).read()); fdoc.close 
 
 def get(gid=GID):
 	'''Возвращает вложенный список'''
