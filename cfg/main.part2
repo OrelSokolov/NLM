@@ -1,6 +1,6 @@
 
-def getAppPath():
-	return app_path
+def getAppPath(): return app_path
 
-def getCfgPath():
-	return cfg_path
+def getCfgPath(): return cfg_path
+
+def getTmpPath(): return tmp_path

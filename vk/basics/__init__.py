@@ -1,1 +1,1 @@
-__all__=["docs"]
+__all__=["docs", "pages", "photos", "wall"]

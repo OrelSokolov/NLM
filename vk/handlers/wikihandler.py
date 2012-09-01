@@ -16,7 +16,7 @@ def buildPage(photo="vk.com/id0", url="vk.com/id0", title="Title", authors="auth
 |'''+descr+'''<br/>
 |-
 !['''+url+'''|Скачать]
-|'''+title+authors+'''
+|'''+'<b>'+title+'</b>'+authors+'''
 |}
 '''
 

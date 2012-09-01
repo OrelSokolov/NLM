@@ -17,37 +17,37 @@ echo '[done]'
 # Пропатчить файлы в системе
 echo "Программа будет зарегестрирована в папке "$PWD
 echo -n -e "У вас есть 9 секунд, чтобы отменить установку. Нажмите CTRL-C для отмены...\r"
-sleep 9
-echo -n -e "                                                                             \r"
+	sleep 9
+	echo -n -e "                                                                             \r"
 echo -n "Патчим '.bashrc'..."
-echo "export PYTHONPATH=$PWD" >> ~/.bashrc
-echo "[done]"
+	echo "export PYTHONPATH=$PWD" >> ~/.bashrc
+	echo "[done]"
 echo "Сейчас приготовьтесь ввести свои данные для авторизации."
-sleep 2
+	sleep 2
 echo -n "Введите свой логин для ВК: "
-read login
+	read login
 echo -n "и пароль: "
-read password
+	read password
 echo -n "Сохранение логина и пароля в файле конфигурации..."
-mkdir ~/.NerdLibraryManager
-echo $login > ~/.NerdLibraryManager/auth.data
-echo $password >> ~/.NerdLibraryManager/auth.data
-echo "[done]"
+	mkdir ~/.NerdLibraryManager
+		mkdir ~/.NerdLibraryManager/cfg/ #Для файлов конфигурации
+		mkdir ~/.NerdLibraryManager/tmp/ #Для временных файлов
+	echo $login > ~/.NerdLibraryManager/cfg/auth.data
+	echo $password >> ~/.NerdLibraryManager/cfg/auth.data
+	echo "[done]"
 echo -n "Собираем главный конфигурационный модуль..."
-cat $PWD/cfg/main.part1 > ./cfg/main.py
-echo  "app_path='$PWD/'" >> ./cfg/main.py
-lastdir=$PWD; cd ~/.NerdLibraryManager/;
-echo  "cfg_path='$PWD/'" >> $lastdir/cfg/main.py
-cd $lastdir
-cat $PWD/cfg/main.part2 >> ./cfg/main.py
-echo '[done]'
+	cat $PWD/cfg/main.part1 > ./cfg/main.py
+	echo  "app_path='$PWD/'" >> ./cfg/main.py
+	lastdir=$PWD; cd ~/.NerdLibraryManager/;
+	echo  "cfg_path='$PWD/cfg/'" >> $lastdir/cfg/main.py 
+	echo  "tmp_path='$PWD/tmp/'" >> $lastdir/cfg/main.py 
+	cd $lastdir
+	cat $PWD/cfg/main.part2 >> ./cfg/main.py
+	echo '[done]'
 echo -n "Переносим файлы для сборки в бэкап-каталог..."
-mv ./cfg/main.part1 ~/.nerd_backup/
-mv ./cfg/main.part2 ~/.nerd_backup/
+	mv ./cfg/main.part1 ~/.nerd_backup/
+	mv ./cfg/main.part2 ~/.nerd_backup/
 echo '[done]' 
-echo -n "Создаем внутреннюю директорию для временных файлов..."
-mkdir ~/.NerdLibraryManager/tmp/
-echo "[done]"
 
 #Сейчас установи все необходимые зависимости.
 dist=`uname -a`

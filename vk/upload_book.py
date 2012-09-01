@@ -16,10 +16,27 @@ except:
 	print "Установите python-requests!"
 	raise SystemExit
 
-#Определяем номер файла.
+
+def nextFor(number):
+	for x in xrange(10000):
+		if str(hex(x-1))==number: return str(hex(x))
+	return None
+
+print nextFor('0x32')
+
+#Загружаем базу данных
+#Определяем номер следующего файла.
 #Загружаем файл в вк.
+#  Перемещаем файл в ~./NerdLibraryManger/tmp/
+#  Изменяем его имя
+#  Загружаем файл в вк
+#  Получаем его Description
 #Загружаем обложку в Вк.
+#  Делаем обложку в папку ~/.NerdLibraryManager/tmp/
+#  Загружаем обложку с нужным caption
 #Создаем вики-страницу с нужными параметрами.
 #Записываем в базу.
 #Загружаем базу.
 #Обновляем страницу с файлом.
+
+

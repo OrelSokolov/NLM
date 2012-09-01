@@ -1,7 +1,9 @@
 #!/usr/bin/python
 # coding: utf-8
 
-from vk import api
+# НУЖНО ЕЩЕ ПРОПАТЧИТЬ ПУТИ!!!!!!!!!!!!!!!!!!!!!
+
+from vk.api import api
 import json
 import os
 import os.path
@@ -12,6 +14,7 @@ import urllib
 import urllib2
 import urlparse
 import subprocess as sps
+import cfg.main
 try: import requests #For uploading
 except:
 	print "Установите python-requests!"
@@ -37,19 +40,9 @@ def rename(vid, oid, name="Default", desc="Загружено с помощью 
 	return api.call("video.edit",{'vid':vid,'oid':oid,'name':name,'desc':desc})
 
 
-
-if __name__=='__main':
-	print "Запущен скрипт videos.py"
-	path="/home/oleg/python/NerdLibraryManager/"
-	
-	print upload_video("/home/oleg/t.mp4")
-	
-
-
-
 if __name__=='__main__':
 	print "Запущен скрипт videos.py"
-	path="/home/oleg/python/NerdLibraryManager/"
+	path=cfg.main.getAppPath() #Изменить!
 	
 	#---------Загрузка из папки!
 	try:

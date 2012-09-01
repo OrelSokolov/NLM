@@ -14,10 +14,12 @@ except:
 GID="-38508808"
 app_path=cfg.main.getAppPath()
 cfg_path=cfg.main.getCfgPath()
+tmp_path=cfg.main.getTmpPath()
 
 def upload(filename, gid=GID):
 	'''Загружает документ в личные документы пользователя'''
 	print "Загружаю ", filename
+	if filename.find(tmp_path)==-1: filename=tmp_path+filename
 	if gid[0]=='-': gid=gid[1:]
 	response=api.call("docs.getUploadServer", {'gid':gid})
 	f = open (filename)
@@ -43,7 +45,7 @@ def download(oid, did):
 	'''Загружает документ на локальную машину.'''
 	doc=getById(oid, did)[0]
 	ext=doc['ext'];	url=doc['url'];	title=doc['title']	
-	fdoc=open(cfg_path+"tmp/"+title+'.'+ext, "wb"); fdoc.write(urlopen(url).read()); fdoc.close 
+	fdoc=open(tmp_path++title+'.'+ext, "wb"); fdoc.write(urlopen(url).read()); fdoc.close 
 
 def get(gid=GID):
 	'''Возвращает вложенный список'''
