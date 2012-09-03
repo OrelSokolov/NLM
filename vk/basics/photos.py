@@ -10,6 +10,7 @@ try: import requests #For uploading
 except:
 	print "Установите python-requests!"
 	raise SystemExit
+from os.path import basename
 
 
 GID="38508808"
@@ -18,6 +19,7 @@ album501_1000="161364785"
 
 def upload(filename, aid=album1_500, gid=GID, caption="Загружено с помощью Nerd Library Manager."):
 	'''Загружает фото в альбом группы'''
+	print 'Загружается', basename(filename)
 	if gid[0]=='-': gid=gid[1:]
 	response=api.call("photos.getUploadServer", {'aid':aid,'gid':gid} )
 	f = open (filename)
@@ -29,7 +31,9 @@ def upload(filename, aid=album1_500, gid=GID, caption="Загружено с п�
 #	print r.content
 	photo=json.loads(r.content) #field file
 	photo['caption']=caption
-	return api.call("photos.save", photo )
+	response=api.call("photos.save", photo )[0]
+	print response
+	return [gid, response[u'pid']]
 
 def get():
 	pass

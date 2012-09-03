@@ -32,30 +32,47 @@ def upload(filename, gid=GID):
 	try:
 		fFile=json.loads(r.content) #field file
 #		print fFile['file']
-		return api.call("docs.save", {'file': fFile['file']})
+		rs=api.call("docs.save", {'file': fFile['file']})
 		print "Вроде файл загрузился :)"
+		return 'http://vk.com/doc'+str(rs[0][u'owner_id'])+'_'+str(rs[0][u'did'])
 	except:
 		print "Сервер выдал ошибку:", r.content
 
-def getById(oid, did):
+def getById(oid, did, gid=GID):
 	'''Возвращает информацию о документе.'''
-	return api.call("docs.getById", {'docs': str(oid)+'_'+str(did)})	
+	if gid[0]=='-': gid=gid[1:]
+	response=api.call("docs.get",{'oid':'-'+gid})
+	docs=[]
+	for x in xrange(int(response[0])):
+		if response[x+1][u'owner_id']==oid and response[x+1][u'did']==did: return response[x+1]
+	return []
 
 def download(oid, did):
 	'''Загружает документ на локальную машину.'''
-	doc=getById(oid, did)[0]
-	ext=doc['ext'];	url=doc['url'];	title=doc['title']	
-	fdoc=open(tmp_path++title+'.'+ext, "wb"); fdoc.write(urlopen(url).read()); fdoc.close 
+	doc=getById(oid, did)
+	#print 'doc', doc
+	if doc!=[]: 
+		ext=doc['ext'];	url=doc['url'];	title=doc['title']	
+		print 'Скачивается документ', title
+		try:	
+			filename=tmp_path+title+'.'+ext if ext!='db' else tmp_path+title
+			fdoc=open(filename, "wb"); fdoc.write(urlopen(url).read()); fdoc.close 
+			print 'Скачан'
+			return filename
+		except: print 'Возникла ошибка при скачивании документа.'
+	else: print 'Ошибка при запросе документа.' 
+
+
+
 
 def get(gid=GID):
 	'''Возвращает вложенный список'''
 	if gid[0]=='-': gid=gid[1:]
 	response=api.call("docs.get",{'oid':'-'+gid})
 	docs=[]
-#	print response
+	#print response
 	for x in xrange(int(response[0])):
 		docs.append([response[x+1][u'title'] , response[x+1][u'owner_id'], response[x+1][u'did']]) 
-	
 	return docs
 
 def getAmount(gid=GID):
@@ -82,7 +99,10 @@ def find(name, exact=True):
 		raise TypeError
 	return result
 
+def findLast(name):
+	result=find(name, exact=True)
+	if result==[]: return []
+	else: return result[0]
 
 if __name__=='__main__':
 	download(getLast()[1], getLast()[2])
-

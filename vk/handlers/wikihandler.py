@@ -1,4 +1,5 @@
-
+#!/usr/bin/env python
+# coding: utf-8
 #По полученным параметрам строит вики-страницу и сохраняет ее под нужным именем.
 
 
@@ -9,15 +10,13 @@
 ##
 def buildPage(photo="vk.com/id0", url="vk.com/id0", title="Title", authors="authors", descr="empty"):
 	'''Строит страницу по полученным данным.'''
-	page='''
-{|
+	page='''{|
 |-
 |[[photo-'''+photo+'''|200px;nolink| Обложка]]
 |'''+descr+'''<br/>
 |-
 !['''+url+'''|Скачать]
 |'''+'<b>'+title+'</b>'+authors+'''
-|}
-'''
-
+|}'''
+	return page
 

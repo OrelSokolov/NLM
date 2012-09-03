@@ -58,11 +58,24 @@ echo "Удаляем *.pyc файлы"
 	del "./vk/api/api.pyc"
 	del "./vk/api/term_auth.pyc"
 	del "./vk/api/__init__.pyc"
+#Чистим папку vk/basics
+	del "./vk/basics/__init__.pyc"
+	del "./vk/basics/docs.pyc"
+	del "./vk/basics/pages.pyc"
+	del "./vk/basics/photos.pyc"
+	del "./vk/basics/storage.pyc"
+#Чистим папку vk/handlers
+	del "./vk/handlers/__init__.pyc" 
+	del "./vk/handlers/filehandler.pyc"
+	del "./vk/handlers/dbhandler.pyc"
+	del "./vk/handlers/wikihandler.pyc"
 # Чистим папку local
 	del "./local/__init__.pyc"
 	del "./local/cover.pyc"
 	del "./local/description.pyc"
 	del "./local/docpages.pyc"
+#Чистим папку remote
+	del "./remote/__init__.pyc"
 
 echo -n -e "Программа приведена к доустановочному состоянию.\r"
 sleep 1
