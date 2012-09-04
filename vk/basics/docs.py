@@ -70,10 +70,12 @@ def get(gid=GID):
 	if gid[0]=='-': gid=gid[1:]
 	response=api.call("docs.get",{'oid':'-'+gid})
 	docs=[]
-	#print response
-	for x in xrange(int(response[0])):
-		docs.append([response[x+1][u'title'] , response[x+1][u'owner_id'], response[x+1][u'did']]) 
+	try:
+		for x in xrange(int(response[0])):
+			docs.append([response[x+1][u'title'] , response[x+1][u'owner_id'], response[x+1][u'did']]) 
+	except: print "Сервер выдал ошибку", response
 	return docs
+	
 
 def getAmount(gid=GID):
 	'''Возврщащает количество документов'''

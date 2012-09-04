@@ -1,4 +1,6 @@
 Что нужно установить:
 rtmpdump #добавлена
+python
 ddjvu
 pypdf
+python-requests

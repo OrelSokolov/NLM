@@ -27,7 +27,7 @@ elif not path.exists("/usr/bin/pdf2djvu"):
 def extractPagePDF(filename, page):
 	'''Извлевает из PDF файла страницу и записывает ее в файл'''
 	folder=path.dirname(filename)+'/'
-	filename=basename(filename)
+	filename=path.basename(filename)
 	print folder+filename
 	page=int(page)
 	output = PdfFileWriter()
@@ -55,12 +55,13 @@ def pagePDF(filename, page):
 	#- Конвертируем файл с одной страницей в djvu с одной страницей.
 	#--------------------------------------------------------------------------------------------------
 	folder=path.dirname(filename)+'/'
-	filename=basename(filename)
+	filename=path.basename(filename)
+
 	filename=folder+str(page)+"cover-"+filename
 	name, ext = path.splitext(filename)
 	outName=name+".djvu"
-	sps.call(['pdf2djvu', '-o',outName, folder+filename], stderr=open('/dev/null'))
-	sps.call(['rm', folder+filename]) #имя файла уже изменено, так что исходный не удалится, а удалится мусор
+	sps.call(['pdf2djvu', '-o',outName, filename], stderr=open('/dev/null'))
+	sps.call(['rm', filename]) #имя файла уже изменено, так что исходный не удалится, а удалится мусор
 	#--------------------------------------------------------------------------------------------------
 	#- Есть файл DJVU с одной страницей. Теперь сконвертируем его в JPG
 	#--------------------------------------------------------------------------------------------------
