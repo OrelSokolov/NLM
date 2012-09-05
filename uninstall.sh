@@ -24,10 +24,15 @@ if [ -e ./cfg/main.py ]; then
 	echo -n "Сносим главный конфиг..."
 		del ./cfg/main.py 'quiet'
 	echo "[done]"
+	echo -n "Сносим главный загрузочный скрипт..."
+		del ./vk/handlers/filehandler.py "quiet"
+	echo "[done]"
 	if [ -e ~/.nerd_backup/ ]; then
 		echo -n "Восстанавливаем первоначальное состояние этой папки."
 		mv ~/.nerd_backup/main.part1 ./cfg/
 		mv ~/.nerd_backup/main.part2 ./cfg/
+		mv ~/.nerd_backup/filehandler.part1 ./vk/handlers/
+		mv ~/.nerd_backup/filehandler.part2 ./vk/handlers/
 		echo '[done]'
 	fi;
 fi;
@@ -64,6 +69,8 @@ echo "Удаляем *.pyc файлы"
 	del "./vk/basics/pages.pyc"
 	del "./vk/basics/photos.pyc"
 	del "./vk/basics/storage.pyc"
+	del "./vk/basics/wall.pyc"
+	
 #Чистим папку vk/handlers
 	del "./vk/handlers/__init__.pyc" 
 	del "./vk/handlers/filehandler.pyc"

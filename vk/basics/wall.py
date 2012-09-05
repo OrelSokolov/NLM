@@ -5,13 +5,13 @@ from vk import api
 import json
 
 
-NerdID="38440718"
+NerdID="-38440718"
 
-def post(owner_id,message,token, attach=""):
+def post(message,owner_id=NerdID, attach=""):
 	if attach=="":
-		return api.call("wall.post",{'owner_id':owner_id, 'message':message, 'signed':'1', 'from_group':'1'}, token)
+		return api.call("wall.post",{'owner_id':owner_id, 'message':message, 'signed':'1', 'from_group':'1'})
 	else:
-		return api.call("wall.post",{'owner_id':owner_id, 'message':message, 'signed':'1', 'from_group':'1', 'attachments':str(attach)}, token)
+		return api.call("wall.post",{'owner_id':owner_id, 'message':message, 'signed':'1', 'from_group':'1', 'attachments':str(attach)})
 
 
 

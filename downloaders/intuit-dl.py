@@ -10,9 +10,7 @@ import xml.dom.minidom as xml #Для парсинга xml файла с ссы�
 import sys
 import subprocess as sps
 import time
-import cfg.main
 
-tmp_path=cfg.main.getTmpPath()
 
 if not exists('/usr/bin/rtmpdump'):
 	print "Установите rtmpdump!"
@@ -69,7 +67,7 @@ def getChannel(text):
 	else:
 		return text[:text.rfind(".")]+'L'
 
-def downloadVideoFrom(url):	
+def downloadVideoFrom(url, to):	
 	'''Загружает видео с переданного url'''
 	p=findXML()
 	p.findVideoIn(url)
@@ -77,11 +75,11 @@ def downloadVideoFrom(url):
 	p=xml.parseString(urllib.urlopen(p.xml).read())
 	channel=getChannel(p.getElementsByTagName("resource")[0].getAttribute("source"))# Передалать в более универсальный случай
 	print "Загрузка начата."
-	try: sps.call(['rtmpdump', '-q', '-r', channel, '-o', tmp_path+title+'.flv'])
+	try: sps.call(['rtmpdump', '-q', '-r', channel, '-o', to+title+'.flv'])
 	except KeyboardInterrupt: print "Прервано пользователем."; raise SystemExit
 	print "Вроде загрузилось."
 
 if __name__=='__main__':
-	try: downloadVideoFrom(sys.argv[1])
+	try: downloadVideoFrom(sys.argv[1], sys.argv[2])
 	except IndexError: 
-		print "Не передана ссылка."; raise SystemExit
+		print "Плохой список аргументов"; raise SystemExit

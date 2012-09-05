@@ -44,9 +44,16 @@ echo -n "Собираем главный конфигурационный мод
 	cd $lastdir
 	cat $PWD/cfg/main.part2 >> ./cfg/main.py
 	echo '[done]'
+echo -n "Собираем главный скрипт с учетом запуска не из командной строки."
+	cat $PWD/vk/handlers/filehandler.part1 > ./vk/handlers/filehandler.py
+	echo "sys.path.append('$PWD')" >> ./vk/handlers/filehandler.py
+	cat $PWD/vk/handlers/filehandler.part2 >> ./vk/handlers/filehandler.py
+	echo "[done]"
 echo -n "Переносим файлы для сборки в бэкап-каталог..."
 	mv ./cfg/main.part1 ~/.nerd_backup/
 	mv ./cfg/main.part2 ~/.nerd_backup/
+	mv ./vk/handlers/filehandler.part1 ~/.nerd_backup
+	mv ./vk/handlers/filehandler.part2 ~/.nerd_backup
 echo '[done]' 
 
 #Сейчас установи все необходимые зависимости.
@@ -55,7 +62,7 @@ if [[ $dist ==  *Ubuntu* ]]; then
 	echo "Ваш дистрибутив: Ubuntu."
 	echo "Сейчас тебе будет предложено установить необходимые пакеты."
 	sleep 5
-	sudo apt-get install rtmpdump
+	sudo apt-get install rtmpdump python python-pypdf python-requests djvulibre-bin imagemagick
 fi
 
 echo "------------------------"
