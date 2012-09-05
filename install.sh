@@ -63,6 +63,19 @@ if [[ $dist ==  *Ubuntu* ]]; then
 	echo "Сейчас тебе будет предложено установить необходимые пакеты."
 	sleep 5
 	sudo apt-get install rtmpdump python python-pypdf python-requests djvulibre-bin imagemagick
+	echo -n "Собираем действие для контекстного меню..."
+		cat $PWD/sysfiles/upload.desktop.part1 > ./sysfiles/upload.desktop
+		echo "Icon[ru_RU]=$PWD/sysfiles/upload.png" >> ./sysfiles/upload.desktop
+		echo "Icon[ru]=$PWD/sysfiles/upload.png" >> ./sysfiles/upload.desktop
+		cat $PWD/sysfiles/upload.desktop.part2 >> ./sysfiles/upload.desktop
+		echo "Exec=gnome-terminal -e 'python $PWD/vk/handlers/filehandler.py %f'" >> ./sysfiles/upload.desktop
+		echo  "[done]"
+	echo -n "Создаем действие контекстного меню..."
+		if [ ! -e ~/.local/share/file-manager/actions/ ]; then
+			mkdir ~/.local/share/file-manager/actions/
+		fi;
+		mv ./sysfiles/upload.desktop ~/.local/share/file-manager/actions/
+		echo "Создано"
 fi
 
 echo "------------------------"

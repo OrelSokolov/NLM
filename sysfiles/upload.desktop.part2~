@@ -1,0 +1,16 @@
+
+Icon[ru_RU]=/home/oleg/.icons/upload.png
+Icon[ru]=/home/oleg/.icons/upload.png
+ToolbarLabel[ru_RU]=Upload to VK
+ToolbarLabel[ru]=Upload to VK
+Name[ru_RU]=Upload to VK
+Name[ru]=Upload to VK
+Profiles=profile-zero;
+
+Tooltip[ru_RU]=Загрузка в группу Nerd Library
+Tooltip[ru]=Загрузка в группу Nerd Library
+
+[X-Action-Profile profile-zero]
+Name[ru_RU]=Default profile
+Name[ru]=Default profile
+Exec=gnome-terminal -e 'python /home/oleg/python/NerdLibraryManager/vk/handlers/filehandler.py %f'
