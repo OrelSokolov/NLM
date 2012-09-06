@@ -4,6 +4,7 @@
 from vk.basics import docs
 import cfg.main
 from vk.basics import storage
+import time
 
 tmp_path=cfg.main.getTmpPath()
 opened=False
@@ -35,7 +36,7 @@ class DataBase(object):
 		'''Загружает самый новый файл базы для последующего открытия.'''
 		while self.database_is_busy:
 			print "База данных занята другим админом. Ждем..."
-			sleep(120)
+			time.sleep(120)
 			self.getStatus()
 
 		current=docs.findLast(self.name)
