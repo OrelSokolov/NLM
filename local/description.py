@@ -15,7 +15,7 @@ def extractFrom(filename):
 	'''Находит и извлекает страницу с описанием в файле. Поиск проводится среди 5 первых страниц.'''
 	if exists(filename):
 		desc=None
-		for page in xrange(5):
+		for page in xrange(9):
 			desc=pageDescr(docpages.extractPage(filename, page))
 			if desc!=None: break
 		if desc==None: desc='None'

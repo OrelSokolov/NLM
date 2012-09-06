@@ -41,7 +41,7 @@ def auth(auth_type="GUI"):
 			#Делаем запись об авторизации#
 			auth.write(token+"\n")
 			auth.write(user_id+"\n")
-			auth.write(str(time.time()+43200))#86400 - время жизни ключа. Для длительных лучше не использовать точное время во избежание проблем. 
+			auth.write(str(time.time()+10000))#86400 - время жизни ключа. Для длительных лучше не использовать точное время во избежание проблем. 
 			auth.close()
 			init()
 			print "Успешно авторизировались с консоли."
@@ -86,7 +86,7 @@ def init(): #Initialization
 		auth_file=open(cfg_path+"auth.txt")
 		global token, user_id, apocalypse_time # Работаем именно с глобальными переменными
 		token=auth_file.readline()[:-1]#Удаляем '\n' из тукена заодно
-		if token=='': 
+		if token=='none': 
 			print "Файл авторизации возможно пуст. Перезапуск..."
 			raise ValueError
 		user_id=auth_file.readline()[:-1]

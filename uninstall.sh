@@ -63,6 +63,7 @@ echo "Удаляем *.pyc файлы"
 	del "./vk/api/api.pyc"
 	del "./vk/api/term_auth.pyc"
 	del "./vk/api/__init__.pyc"
+	del "./vk/api/browser.py" # Мы же его собираем
 #Чистим папку vk/basics
 	del "./vk/basics/__init__.pyc"
 	del "./vk/basics/docs.pyc"
@@ -83,7 +84,8 @@ echo "Удаляем *.pyc файлы"
 	del "./local/docpages.pyc"
 #Чистим папку remote
 	del "./remote/__init__.pyc"
-
+#Удаляем контекстные действия
+	del ~/.local/share/file-manager/actions/upload.desktop
 echo -n -e "Программа приведена к доустановочному состоянию.\r"
 sleep 1
 echo "Теперь вы можете запустить установку заново.                  "

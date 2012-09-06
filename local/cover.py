@@ -9,6 +9,7 @@ import time
 #- Попытаемся импортировать библиотеку для резки PDF.
 #--------------------------------------------------------------------------------------------------
 try:
+	import pyPdf.utils
 	from pyPdf import PdfFileWriter, PdfFileReader
 except: 
 	print "Установите pyPDF."
@@ -44,14 +45,23 @@ def extractPagePDF(filename, page):
 	output.write(outputStream)
 	outputStream.close()
 
+def fixPdf(pdfFile):
+    try:
+        fileOpen = file(pdfFile, "ab")
+        fileOpen.write("%%EOF")
+        fileOpen.close()
+        return "Fixed"
+    except Exception, e:
+        return "Unable to open file: %s with error: %s" % (pdfFile, str(e))
 
 def pagePDF(filename, page):
 	'''Записывает первую страницу из PDF файла в Jpeg файл'''
 	try:
 		extractPagePDF(filename, page) # Получаем PDF файл с одной страницей
+	except pyPdf.utils.PdfReadError:
+		fixPdf(filename)
+		extractPagePDF(filename, page) # Получаем PDF файл с одной страницей
 	except:
-		print "Ошибка, при вырезании страницы из файла", filename
-		time.sleep(10)
 		raise SystemExit
 	#--------------------------------------------------------------------------------------------------
 	#- Конвертируем файл с одной страницей в djvu с одной страницей.

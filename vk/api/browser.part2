@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
 
 from gi.repository import Gtk, WebKit
 import os, sys, urllib 

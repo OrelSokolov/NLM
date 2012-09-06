@@ -20,6 +20,8 @@ class DataBase(object):
 		self.getStatus()
 	def setBusy(self):
 		storage.Set(key=1, value='Busy')
+	def setFree(self):
+		storage.Set(key=1, value='Free')
 	def getStatus(self):
 		'''Проверяет, занята ли сейчас база другим пользователем.'''
 		self.database_is_busy=True if storage.Get(key=1)=='Busy' else False
@@ -28,10 +30,17 @@ class DataBase(object):
 		docs.upload(self.filename)
 		filename=None
 		downloaded=False
+		self.setFree()
 	def download(self):
 		'''Загружает самый новый файл базы для последующего открытия.'''
+		while self.database_is_busy:
+			print "База данных занята другим админом. Ждем..."
+			sleep(120)
+			self.getStatus()
+
 		current=docs.findLast(self.name)
 		print current
+		self.setBusy()
 		self.filename=docs.download(current[1], current[2])
 		self.downloaded=True
 	def lastNumber(self):

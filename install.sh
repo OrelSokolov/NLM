@@ -49,6 +49,11 @@ echo -n "Собираем главный скрипт с учетом запус
 	echo "sys.path.append('$PWD')" >> ./vk/handlers/filehandler.py
 	cat $PWD/vk/handlers/filehandler.part2 >> ./vk/handlers/filehandler.py
 	echo "[done]"
+echo -n "Собираем браузер для графической авторизации..."
+	cat $PWD/vk/api/browser.part1 > ./vk/api/browser.py
+	echo "sys.path.append('$PWD')" >> ./vk/api/browser.py
+	cat $PWD/vk/api/browser.part2 >> ./vk/api/browser.py
+	echo "[done]"
 echo -n "Переносим файлы для сборки в бэкап-каталог..."
 	mv ./cfg/main.part1 ~/.nerd_backup/
 	mv ./cfg/main.part2 ~/.nerd_backup/
