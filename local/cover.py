@@ -48,7 +48,7 @@ def extractPagePDF(filename, page):
 def fixPdf(pdfFile):
     try:
         fileOpen = file(pdfFile, "ab")
-        fileOpen.write("%%EOF")
+        fileOpen.write(chr(04))
         fileOpen.close()
         return "Fixed"
     except Exception, e:

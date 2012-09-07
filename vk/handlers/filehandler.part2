@@ -59,7 +59,8 @@ if __name__=='__main__':
 	print coverfile
 #Переименовываем документ.
 	print 'Переименовываем документ'
-	docname=str(currentNumber)
+	name, ext=splitext(filename)
+	docname=str(currentNumber+ext)
 	docFilename=tmp_path+docname
 	sps.call(['mv', filename, docFilename])
 #Загружаем документ и сохраняем адрес.
